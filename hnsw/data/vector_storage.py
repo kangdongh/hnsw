@@ -23,7 +23,7 @@ class VectorStorage:
 
     def get_distance(self, query_vector: NDArray, target_vector_id: int):
         # return cosine distance
-        assert target_vector_id in self.vectors
+        assert target_vector_id in self.vectors, f"Unknown vector id: {target_vector_id}"
         target_vector = self.vectors[target_vector_id]
         inner_prod = np.dot(query_vector, target_vector)
         abs_prod = np.linalg.norm(query_vector) * np.linalg.norm(target_vector)

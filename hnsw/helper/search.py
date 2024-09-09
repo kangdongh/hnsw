@@ -16,10 +16,15 @@ class SearchHelper:
         self.vector_storage = vector_storage
 
     def search(self, ef: int, vector: NDArray):
-        search_result = [self.graph.layers[-1].entry_id]
+        entry_point = -1
+        search_result = []
         for layer in reversed(self.graph.layers):
-            entry_point = search_result[0]
+            if layer.entry_id == -1:
+                continue
+            if entry_point == -1:
+                entry_point = layer.entry_id
             search_result = self.search_layer(layer, entry_point, ef, vector)
+            entry_point = search_result[0]
 
         return search_result
 
